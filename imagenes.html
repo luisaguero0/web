@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página de Formulario Premium</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <style>
+    body {
+      background-color: #f4f7f9;
+      font-family: 'Arial', sans-serif;
+    }
+    .form-container {
+      margin-top: 50px;
+      padding: 40px;
+      background-color: #ffffff;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      border: 1px solid #e1e5e9;
+    }
+    .form-title {
+      margin-bottom: 30px;
+      font-size: 28px;
+      font-weight: 600;
+      color: #333;
+      text-align: center;
+    }
+    .form-control {
+      border-radius: 8px;
+      border: 1px solid #d1d5da;
+      padding: 10px;
+      font-size: 16px;
+    }
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 16px;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #004085;
+    }
+    .preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .preview img {
+      max-width: 200px;
+      max-height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .form-check-label {
+      font-size: 16px;
+    }
+    .form-text {
+      font-size: 14px;
+      color: #6c757d;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="form-container">
+          <div class="form-title">Sube Tus Imágenes</div>
+          <form action="/upload" method="post" enctype="multipart/form-data">
+            <div class="mb-4">
+              <label for="name" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="name" name="name" placeholder="Introduce tu nombre" required>
+            </div>
+            <div class="mb-4">
+              <label for="email" class="form-label">Correo Electrónico</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Introduce tu correo electrónico" required>
+            </div>
+            <div class="mb-4">
+              <label for="images" class="form-label">Subir Imágenes</label>
+              <input type="file" class="form-control" id="images" name="images[]" accept="image/*" multiple required>
+              <small class="form-text">Puedes subir hasta 100 imágenes a la vez.</small>
+            </div>
+            <div class="preview" id="preview"></div>
+            <div class="mb-4 form-check">
+              <input type="checkbox" class="form-check-input" id="terms" required>
+              <label class="form-check-label" for="terms">Acepto los términos y condiciones</label>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Enviar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+  <!-- Custom JS -->
+  <script>
+    document.getElementById('images').addEventListener('change', function() {
+      const previewContainer = document.getElementById('preview');
+      previewContainer.innerHTML = ''; // Limpiar vistas previas anteriores
+      const files = this.files;
+
+      if (files.length > 100) {
+        alert('Puedes subir hasta 100 imágenes a la vez.');
+        this.value = ''; // Limpiar el input
+        return;
+      }
+
+      for (const file of files) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function(e) {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          previewContainer.appendChild(img);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
+
+
